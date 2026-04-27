@@ -43,3 +43,14 @@ exports.updateStatus = asyncHandler(async (req, res) => {
     data,
   });
 });
+
+// 🟢 ADMIN: GET ALL APPLICATIONS
+exports.getAll = asyncHandler(async (req, res) => {
+
+  const data = await service.getAllApplications(req.query);
+
+  res.json({
+    success: true,
+    data,
+  });
+});

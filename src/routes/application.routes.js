@@ -29,4 +29,12 @@ router.patch(
   controller.updateStatus
 );
 
+// 👑 ADMIN: GET ALL APPLICATIONS
+router.get(
+  '/',
+  verifyToken,
+  checkRole('ADMIN'),
+  controller.getAll
+);
+
 module.exports = router;

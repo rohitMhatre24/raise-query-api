@@ -56,3 +56,30 @@ exports.updateStatus = async (id, status) => {
 
   return app;
 };
+
+// 🟢 ADMIN: GET ALL APPLICATIONS WITH PAGINATION + FILTER
+exports.getAllApplications = async (query) => {
+  const { page = 1, limit = 10, status } = query;
+
+  const offset = (page - 1) * limit;
+
+  // Build filter condition
+  const where = {};
+  if (status) {
+    where.status = status;
+  }
+
+  const { count, rows } = await Application.findAndCountAll({
+    where,
+    limit: Number(limit),
+    offset: Number(offset),
+    order: [['createdAt', 'DESC']],
+  });
+
+  return {
+    total: count,
+    page: Number(page),
+    totalPages: Math.ceil(count / limit),
+    data: rows,
+  };
+};
