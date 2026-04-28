@@ -1,4 +1,4 @@
-const Application = require('../models/application.model');
+const { Application, User } = require("../models");
 
 
 // 🟢 CREATE APPLICATION
@@ -58,28 +58,38 @@ exports.updateStatus = async (id, status) => {
 };
 
 // 🟢 ADMIN: GET ALL APPLICATIONS WITH PAGINATION + FILTER
-exports.getAllApplications = async (query) => {
-  const { page = 1, limit = 10, status } = query;
+exports.getAllApplications = async () => {
+  return await Application.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ["name", "email"],
+      },
+    ],
+    order: [["createdAt", "DESC"]],
+  });
+};
 
-  const offset = (page - 1) * limit;
+// 🟢 ADMIN: GET DASHBOARD STATS
+exports.getAdminDashboardStats = async () => {
+  const total = await Application.count();
 
-  // Build filter condition
-  const where = {};
-  if (status) {
-    where.status = status;
-  }
+  const approved = await Application.count({
+    where: { status: "APPROVED" },
+  });
 
-  const { count, rows } = await Application.findAndCountAll({
-    where,
-    limit: Number(limit),
-    offset: Number(offset),
-    order: [['createdAt', 'DESC']],
+  const pending = await Application.count({
+    where: { status: "PENDING" },
+  });
+
+  const rejected = await Application.count({
+    where: { status: "REJECTED" },
   });
 
   return {
-    total: count,
-    page: Number(page),
-    totalPages: Math.ceil(count / limit),
-    data: rows,
+    total,
+    approved,
+    pending,
+    rejected,
   };
 };

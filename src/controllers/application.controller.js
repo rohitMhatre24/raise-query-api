@@ -45,12 +45,36 @@ exports.updateStatus = asyncHandler(async (req, res) => {
 });
 
 // 🟢 ADMIN: GET ALL APPLICATIONS
-exports.getAll = asyncHandler(async (req, res) => {
+exports.getAll = async (req, res) => {
+  try {
+    const data = await service.getAllApplications(req.query);
+    console.log('Data fetched:', data); // Debug log
+    res.json({
+      success: true,
+      data,
+    });
+  } catch (err) {
+    console.error("GET /applications ERROR:", err);
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
 
-  const data = await service.getAllApplications(req.query);
+// 🟢 ADMIN: DASHBOARD STATS
+exports.getAdminDashboard = async (req, res) => {
+  try {
+    const data = await service.getAdminDashboardStats();
 
-  res.json({
-    success: true,
-    data,
-  });
-});
+    res.json({
+      success: true,
+      data,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+};
