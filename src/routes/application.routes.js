@@ -29,12 +29,20 @@ router.patch(
   controller.updateStatus
 );
 
-// 👑 ADMIN: GET ALL APPLICATIONS
+// ✅ Get all applications (admin table)
 router.get(
   '/',
   verifyToken,
   checkRole('ADMIN'),
   controller.getAll
+);
+
+// ✅ Get admin dashboard stats
+router.get(
+  '/admin/dashboard',
+  verifyToken,
+  checkRole('ADMIN'),
+  controller.getAdminDashboard
 );
 
 module.exports = router;
