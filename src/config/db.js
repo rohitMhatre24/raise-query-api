@@ -16,6 +16,18 @@ const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log('✅ MySQL Connected');
+    // 🔥 Show current database
+    const [dbResult] = await sequelize.query("SELECT DATABASE() as db");
+    console.log("📦 Connected DB:", dbResult[0].db);
+
+    // 🔥 Show all tables
+    const [tables] = await sequelize.query("SHOW TABLES");
+
+    console.log("📋 Tables in DB:");
+
+    tables.forEach((table) => {
+      console.log(Object.values(table)[0]);
+    });
   } catch (error) {
     console.error('❌ DB Connection Failed:', error.message);
     process.exit(1);
