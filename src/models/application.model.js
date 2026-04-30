@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 
-const Application = sequelize.define('Application', {
+const Application = sequelize.define('application', {
   user_id: {
     type: DataTypes.BIGINT,
     allowNull: false,
