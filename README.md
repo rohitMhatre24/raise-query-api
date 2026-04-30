@@ -71,9 +71,30 @@ DB_PASSWORD=yourpassword
 DB_NAME=raise_query
 DB_PORT=3306
 JWT_SECRET=your_secret_key
+JWT_EXPIRES_IN=15m
+```
+### 4. Run Database Migrations
+
+```bash
+npx sequelize-cli db:migrate
 ```
 
-### 4. Run Server
+This will create required tables:
+
+Users
+Applications
+
+
+### 5. Run Seeders For Admin Login
+
+```bash
+npx sequelize-cli db:seed:all
+```
+Admin Gamil - admin@example.com
+Admin Pass - admin123
+
+
+### 6. Run Server
 
 ```bash
 npm run dev
