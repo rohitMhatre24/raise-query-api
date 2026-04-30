@@ -48,7 +48,7 @@ exports.updateStatus = asyncHandler(async (req, res) => {
 exports.getAll = async (req, res) => {
   try {
     const data = await service.getAllApplications(req.query);
-    console.log('Data fetched:', data); // Debug log
+    
     res.json({
       success: true,
       data,
