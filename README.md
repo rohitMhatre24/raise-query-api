@@ -69,6 +69,7 @@ DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=yourpassword
 DB_NAME=raise_query
+DB_PORT=3306
 JWT_SECRET=your_secret_key
 ```
 
